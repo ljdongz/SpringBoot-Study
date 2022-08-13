@@ -1,5 +1,6 @@
 package com.example.firstproject.entity;
 
+import com.example.firstproject.dto.CommentDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,4 +27,15 @@ public class Comment {
 
     @Column
     private String body;
+
+    public static Comment createComment(Article article, CommentDto dto) {
+        // 예외 처리
+        if (dto.getId() !=  null)
+            throw new IllegalArgumentException("id 값은 넣을 수 없습니다.");
+        if (dto.getArticleId() != article.getId())
+            throw new IllegalArgumentException("articleId 값이 일치하지 않습니다.");
+
+        // 엔티티 생성 및 반환
+        return new Comment(dto.getId(), article, dto.getNickname(), dto.getBody());
+    }
 }
